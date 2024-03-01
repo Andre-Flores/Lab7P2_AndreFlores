@@ -5,6 +5,7 @@
 package lab7p2_andreflores;
 
 import java.io.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.Popup;
@@ -63,9 +64,19 @@ public class Principal extends javax.swing.JFrame {
                 jMenuItem8MouseClicked(evt);
             }
         });
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(jMenuItem8);
 
         jMenuItem9.setText("Refresh trees");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(jMenuItem9);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -292,19 +303,88 @@ public class Principal extends javax.swing.JFrame {
                 int row = jTree1.getClosestRowForLocation(
                         evt.getX(), evt.getY());
                 jTree1.setSelectionRow(row);
-                DefaultMutableTreeNode v1 = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+                v1 = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
                 jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
-
+                System.out.println("jhh");
             }
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jTree1MouseClicked
 
     private void jMenuItem8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem8MouseClicked
 
-
-
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8MouseClicked
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
+        int rows = 0;
+
+        String id = "";
+        String name = "";
+        String category = "";
+        String price = "";
+        String aisle = "";
+        String bin = "";
+        ArrayList<Producto> productos = new ArrayList();
+
+        File archivo = new File((String) v1.getUserObject());
+        while (jTable1.getValueAt(rows, 0) != null) {
+            for (int i = 0; i <= 6; i++) {
+                if (i == 0) {
+                    id = (String) jTable1.getValueAt(rows, i);
+                } else if (i == 1) {
+                    name = (String) jTable1.getValueAt(rows, i);
+
+                } else if (i == 2) {
+                    category = (String) jTable1.getValueAt(rows, i);
+
+                } else if (i == 3) {
+                    price = (String) jTable1.getValueAt(rows, i);
+
+                } else if (i == 4) {
+                    aisle = (String) jTable1.getValueAt(rows, i);
+
+                } else if (i == 5) {
+                    bin = (String) jTable1.getValueAt(rows, i);
+
+                }
+
+            }
+            productos.add(new Producto(id, name, category, price, aisle, bin));
+            rows++;
+
+        }
+        String salida = "";
+        System.out.println(productos.size());
+        for (int i = 0; i < productos.size(); i++) {
+            salida += productos.get(i).getId() + "," + productos.get(i).getName() + "," + productos.get(i).getCategory() + "," + productos.get(i).getPrice() + "," + productos.get(i).getAisle() + "," + productos.get(i).getBin() + "\n";
+
+        }
+        try {
+            FileWriter fw = new FileWriter(archivo);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(salida);
+            bw.flush();
+            bw.close();
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        int rows = 0;
+        while (jTable1.getValueAt(rows, 0) != null) {
+            for (int i = 0; i < 6; i++) {
+                jTable1.setValueAt("", rows, i);
+            }
+            rows++;
+        }
+// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -349,7 +429,7 @@ public class Principal extends javax.swing.JFrame {
         });
     }
 
-
+    DefaultMutableTreeNode v1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;

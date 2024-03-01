@@ -1,14 +1,14 @@
 package lab7p2_andreflores;
 
 public class Producto {
-    private int id;
+    private String id;
     private String name;
-    private int category;
-    private double price;
-    private int aisle;
-    private int bin;
+    private String category;
+    private String price;
+    private String aisle;
+    private String bin;
 
-    public Producto(int id, String name, int category, double price, int aisle, int bin) {
+    public Producto(String id, String name, String category, String price, String aisle, String bin) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -17,11 +17,11 @@ public class Producto {
         this.bin = bin;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -33,36 +33,38 @@ public class Producto {
         this.name = name;
     }
 
-    public int getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public int getAisle() {
+    public String getAisle() {
         return aisle;
     }
 
-    public void setAisle(int aisle) {
+    public void setAisle(String aisle) {
         this.aisle = aisle;
     }
 
-    public int getBin() {
+    public String getBin() {
         return bin;
     }
 
-    public void setBin(int bin) {
+    public void setBin(String bin) {
         this.bin = bin;
     }
+
+    
 
 }
