@@ -40,7 +40,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        tf_Command = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -82,6 +82,11 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Enter");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -208,7 +213,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf_Command, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -222,7 +227,7 @@ public class Principal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_Command, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,6 +391,76 @@ public class Principal extends javax.swing.JFrame {
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        String texto = tf_Command.getText();
+        String[] arr = texto.split(" ");
+        if (arr[0] == "./load") {
+            File archivo = new File(arr[1]);
+            DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
+            int rows = 0;
+
+            String id = "";
+            String name = "";
+            String category = "";
+            String price = "";
+            String aisle = "";
+            String bin = "";
+            ArrayList<Producto> productos = new ArrayList();
+
+            while (jTable1.getValueAt(rows, 0) != null) {
+                for (int i = 0; i <= 6; i++) {
+                    if (i == 0) {
+                        id = (String) jTable1.getValueAt(rows, i);
+                    } else if (i == 1) {
+                        name = (String) jTable1.getValueAt(rows, i);
+
+                    } else if (i == 2) {
+                        category = (String) jTable1.getValueAt(rows, i);
+
+                    } else if (i == 3) {
+                        price = (String) jTable1.getValueAt(rows, i);
+
+                    } else if (i == 4) {
+                        aisle = (String) jTable1.getValueAt(rows, i);
+
+                    } else if (i == 5) {
+                        bin = (String) jTable1.getValueAt(rows, i);
+
+                    }
+
+                }
+                productos.add(new Producto(id, name, category, price, aisle, bin));
+                rows++;
+
+            }
+            String salida = "";
+            System.out.println(productos.size());
+            for (int i = 0; i < productos.size(); i++) {
+                salida += productos.get(i).getId() + "," + productos.get(i).getName() + "," + productos.get(i).getCategory() + "," + productos.get(i).getPrice() + "," + productos.get(i).getAisle() + "," + productos.get(i).getBin() + "\n";
+
+            }
+            try {
+                FileWriter fw = new FileWriter(archivo);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(salida);
+                bw.flush();
+                bw.close();
+                fw.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        } else if (arr[0].equalsIgnoreCase("./create") && arr[2].equalsIgnoreCase("-single") ) {
+            System.out.println("h");
+            DefaultTreeModel modeloArbol = (DefaultTreeModel) jTree1.getModel();
+            DefaultMutableTreeNode padre = (DefaultMutableTreeNode) modeloArbol.getRoot();
+            DefaultMutableTreeNode hijo = new DefaultMutableTreeNode(arr[1]);
+            padre.add(hijo);
+            modeloArbol.reload();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -450,8 +525,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JTextField tf_Command;
     // End of variables declaration//GEN-END:variables
 
 }
