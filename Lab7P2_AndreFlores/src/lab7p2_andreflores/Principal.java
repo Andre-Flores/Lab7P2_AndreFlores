@@ -206,7 +206,15 @@ public class Principal extends javax.swing.JFrame {
             new String [] {
                 "Id", "name", "category", "price", "aisle", "bin"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -366,33 +374,35 @@ public class Principal extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
         int rows = 0;
 
-        String id = "";
+        int id = 0;
         String name = "";
-        String category = "";
-        String price = "";
-        String aisle = "";
-        String bin = "";
+        int category = 0;
+        double price = 0;
+        int aisle = 0;
+        int bin = 0;
         ArrayList<Producto> productos = new ArrayList();
 
         File archivo = new File((String) v1.getUserObject());
-        while (jTable1.getValueAt(rows, 0) != null) {
+
+        while (jTable1.getValueAt(rows,
+                0) != null) {
             for (int i = 0; i <= 6; i++) {
                 if (i == 0) {
-                    id = (String) jTable1.getValueAt(rows, i);
+                    id = (int) jTable1.getValueAt(rows, i);
                 } else if (i == 1) {
                     name = (String) jTable1.getValueAt(rows, i);
 
                 } else if (i == 2) {
-                    category = (String) jTable1.getValueAt(rows, i);
+                    category = (int) jTable1.getValueAt(rows, i);
 
                 } else if (i == 3) {
-                    price = (String) jTable1.getValueAt(rows, i);
+                    price = (double) jTable1.getValueAt(rows, i);
 
                 } else if (i == 4) {
-                    aisle = (String) jTable1.getValueAt(rows, i);
+                    aisle = (int) jTable1.getValueAt(rows, i);
 
                 } else if (i == 5) {
-                    bin = (String) jTable1.getValueAt(rows, i);
+                    bin = (int) jTable1.getValueAt(rows, i);
 
                 }
 
@@ -402,11 +412,15 @@ public class Principal extends javax.swing.JFrame {
 
         }
         String salida = "";
+
         System.out.println(productos.size());
-        for (int i = 0; i < productos.size(); i++) {
+        for (int i = 0;
+                i < productos.size();
+                i++) {
             salida += productos.get(i).getId() + "," + productos.get(i).getName() + "," + productos.get(i).getCategory() + "," + productos.get(i).getPrice() + "," + productos.get(i).getAisle() + "," + productos.get(i).getBin() + "\n";
 
         }
+
         try {
             FileWriter fw = new FileWriter(archivo);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -430,37 +444,38 @@ public class Principal extends javax.swing.JFrame {
     private void Btn_entradaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Btn_entradaMouseClicked
         String texto = tf_Command.getText();
         String[] arr = texto.split(" ");
+        System.out.println(arr.length);
         if (arr[0] == "./load") {
             File archivo = new File(arr[1]);
             DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
             int rows = 0;
 
-            String id = "";
+            int id = 0;
             String name = "";
-            String category = "";
-            String price = "";
-            String aisle = "";
-            String bin = "";
+            int category = 0;
+            double price = 0;
+            int aisle = 0;
+            int bin = 0;
             ArrayList<Producto> productos = new ArrayList();
 
             while (jTable1.getValueAt(rows, 0) != null) {
                 for (int i = 0; i <= 6; i++) {
                     if (i == 0) {
-                        id = (String) jTable1.getValueAt(rows, i);
+                        id = (int) jTable1.getValueAt(rows, i);
                     } else if (i == 1) {
                         name = (String) jTable1.getValueAt(rows, i);
 
                     } else if (i == 2) {
-                        category = (String) jTable1.getValueAt(rows, i);
+                        category = (int) jTable1.getValueAt(rows, i);
 
                     } else if (i == 3) {
-                        price = (String) jTable1.getValueAt(rows, i);
+                        price = (double) jTable1.getValueAt(rows, i);
 
                     } else if (i == 4) {
-                        aisle = (String) jTable1.getValueAt(rows, i);
+                        aisle = (int) jTable1.getValueAt(rows, i);
 
                     } else if (i == 5) {
-                        bin = (String) jTable1.getValueAt(rows, i);
+                        bin = (int) jTable1.getValueAt(rows, i);
 
                     }
 
@@ -498,6 +513,7 @@ public class Principal extends javax.swing.JFrame {
                 e.printStackTrace();
 
             }
+            System.out.println("srb");
         } else if (arr[0].equalsIgnoreCase("./create") && arr[2].equalsIgnoreCase("-single")) {
             System.out.println("h");
             DefaultTreeModel modeloArbol = (DefaultTreeModel) jTree1.getModel();
@@ -505,6 +521,15 @@ public class Principal extends javax.swing.JFrame {
             DefaultMutableTreeNode hijo = new DefaultMutableTreeNode(arr[1]);
             padre.add(hijo);
             modeloArbol.reload();
+        } else if (arr[0].equalsIgnoreCase("./clear")) {
+            int rows = 0;
+            while (jTable1.getValueAt(rows, 0) != null) {
+                for (int i = 0; i < 6; i++) {
+                    jTable1.setValueAt(null, rows, i);
+                }
+                rows++;
+            }
+
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_Btn_entradaMouseClicked
@@ -549,33 +574,33 @@ public class Principal extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
         int rows = 0;
 
-        String id = "";
+        int id = 0;
         String name = "";
-        String category = "";
-        String price = "";
-        String aisle = "";
-        String bin = "";
+        int category = 0;
+        double price = 0;
+        int aisle = 0;
+        int bin = 0;
         ArrayList<Producto> productos = new ArrayList();
 
         File archivo = new File((String) v1.getUserObject());
         while (jTable1.getValueAt(rows, 0) != null) {
             for (int i = 0; i <= 6; i++) {
                 if (i == 0) {
-                    id = (String) jTable1.getValueAt(rows, i);
+                    id = (int) jTable1.getValueAt(rows, i);
                 } else if (i == 1) {
                     name = (String) jTable1.getValueAt(rows, i);
 
                 } else if (i == 2) {
-                    category = (String) jTable1.getValueAt(rows, i);
+                    category = (int) jTable1.getValueAt(rows, i);
 
                 } else if (i == 3) {
-                    price = (String) jTable1.getValueAt(rows, i);
+                    price = (double) jTable1.getValueAt(rows, i);
 
                 } else if (i == 4) {
-                    aisle = (String) jTable1.getValueAt(rows, i);
+                    aisle = (int) jTable1.getValueAt(rows, i);
 
                 } else if (i == 5) {
-                    bin = (String) jTable1.getValueAt(rows, i);
+                    bin = (int) jTable1.getValueAt(rows, i);
 
                 }
 
