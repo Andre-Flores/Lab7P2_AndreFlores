@@ -300,6 +300,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu3.add(jMenuItem6);
 
         jMenuItem7.setText("Commands");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem7);
 
         jMenuBar1.add(jMenu3);
@@ -322,7 +327,7 @@ public class Principal extends javax.swing.JFrame {
 
 
     private void MI_newfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_newfileActionPerformed
-        
+
         String nombreArchivo = JOptionPane.showInputDialog("ingrese el nombre del archivo:");
         DefaultTreeModel modeloArbol = (DefaultTreeModel) jTree1.getModel();
         DefaultMutableTreeNode padre = (DefaultMutableTreeNode) modeloArbol.getRoot();
@@ -332,7 +337,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_MI_newfileActionPerformed
 
     private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
-        
+
         if (evt.getButton() == 3) {
             if (evt.isMetaDown()) {
                 int row = jTree1.getClosestRowForLocation(
@@ -352,7 +357,7 @@ public class Principal extends javax.swing.JFrame {
     private void MI_loadfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_loadfileActionPerformed
         DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
         int rows = 0;
-        
+
         String id = "";
         String name = "";
         String category = "";
@@ -360,7 +365,7 @@ public class Principal extends javax.swing.JFrame {
         String aisle = "";
         String bin = "";
         ArrayList<Producto> productos = new ArrayList();
-        
+
         File archivo = new File((String) v1.getUserObject());
         while (jTable1.getValueAt(rows, 0) != null) {
             for (int i = 0; i <= 6; i++) {
@@ -368,31 +373,31 @@ public class Principal extends javax.swing.JFrame {
                     id = (String) jTable1.getValueAt(rows, i);
                 } else if (i == 1) {
                     name = (String) jTable1.getValueAt(rows, i);
-                    
+
                 } else if (i == 2) {
                     category = (String) jTable1.getValueAt(rows, i);
-                    
+
                 } else if (i == 3) {
                     price = (String) jTable1.getValueAt(rows, i);
-                    
+
                 } else if (i == 4) {
                     aisle = (String) jTable1.getValueAt(rows, i);
-                    
+
                 } else if (i == 5) {
                     bin = (String) jTable1.getValueAt(rows, i);
-                    
+
                 }
-                
+
             }
             productos.add(new Producto(id, name, category, price, aisle, bin));
             rows++;
-            
+
         }
         String salida = "";
         System.out.println(productos.size());
         for (int i = 0; i < productos.size(); i++) {
             salida += productos.get(i).getId() + "," + productos.get(i).getName() + "," + productos.get(i).getCategory() + "," + productos.get(i).getPrice() + "," + productos.get(i).getAisle() + "," + productos.get(i).getBin() + "\n";
-            
+
         }
         try {
             FileWriter fw = new FileWriter(archivo);
@@ -403,7 +408,7 @@ public class Principal extends javax.swing.JFrame {
             fw.close();
         } catch (Exception e) {
             e.printStackTrace();
-            
+
         }
 
 // TODO add your handling code here:
@@ -421,7 +426,7 @@ public class Principal extends javax.swing.JFrame {
             File archivo = new File(arr[1]);
             DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
             int rows = 0;
-            
+
             String id = "";
             String name = "";
             String category = "";
@@ -429,38 +434,38 @@ public class Principal extends javax.swing.JFrame {
             String aisle = "";
             String bin = "";
             ArrayList<Producto> productos = new ArrayList();
-            
+
             while (jTable1.getValueAt(rows, 0) != null) {
                 for (int i = 0; i <= 6; i++) {
                     if (i == 0) {
                         id = (String) jTable1.getValueAt(rows, i);
                     } else if (i == 1) {
                         name = (String) jTable1.getValueAt(rows, i);
-                        
+
                     } else if (i == 2) {
                         category = (String) jTable1.getValueAt(rows, i);
-                        
+
                     } else if (i == 3) {
                         price = (String) jTable1.getValueAt(rows, i);
-                        
+
                     } else if (i == 4) {
                         aisle = (String) jTable1.getValueAt(rows, i);
-                        
+
                     } else if (i == 5) {
                         bin = (String) jTable1.getValueAt(rows, i);
-                        
+
                     }
-                    
+
                 }
                 productos.add(new Producto(id, name, category, price, aisle, bin));
                 rows++;
-                
+
             }
             String salida = "";
             System.out.println(productos.size());
             for (int i = 0; i < productos.size(); i++) {
                 salida += productos.get(i).getId() + "," + productos.get(i).getName() + "," + productos.get(i).getCategory() + "," + productos.get(i).getPrice() + "," + productos.get(i).getAisle() + "," + productos.get(i).getBin() + "\n";
-                
+
             }
             try {
                 FileWriter fw = new FileWriter(archivo);
@@ -471,7 +476,7 @@ public class Principal extends javax.swing.JFrame {
                 fw.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                
+
             }
         } else if (arr[0].equalsIgnoreCase("./create") && arr[2].equalsIgnoreCase("-single")) {
             System.out.println("h");
@@ -490,7 +495,7 @@ public class Principal extends javax.swing.JFrame {
                 ppmenu_tabla.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }
-        
+
 
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -505,19 +510,34 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_clearTableActionPerformed
 
     private void MI_cleartableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_cleartableActionPerformed
-               
+        int rows = 0;
+        while (jTable1.getValueAt(rows, 0) != null) {
+            for (int i = 0; i < 6; i++) {
+                jTable1.setValueAt("", rows, i);
+            }
+            rows++;
+        }
     }//GEN-LAST:event_MI_cleartableActionPerformed
 
     private void MI_ClearCommandLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ClearCommandLineActionPerformed
-        
+
+        tf_Command.setText("");
         // TODO add your handling code here:
     }//GEN-LAST:event_MI_ClearCommandLineActionPerformed
 
     private void MI_importfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_importfileActionPerformed
 
-
         // TODO add your handling code here:
     }//GEN-LAST:event_MI_importfileActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+
+        JOptionPane.showMessageDialog(this, "Comandos: \n"
+                + "1. ./create (nombre archivo).txt -single: crea el archivo. \n"
+                + "2. ./load (nombre archivo).txt: carga la tabla al archivo. \n"
+                + "3. ./clear: vacia la tabla. \n"
+                + "4. ./refresh: refresca el arbol y agrega los nuevos archivos.");
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -533,21 +553,21 @@ public class Principal extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Principal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Principal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Principal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Principal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -561,7 +581,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
     }
-    
+
     DefaultMutableTreeNode v1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MI_ClearCommandLine;
