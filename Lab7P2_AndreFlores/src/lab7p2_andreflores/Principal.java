@@ -297,6 +297,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu3.setText("Help");
 
         jMenuItem6.setText("Product Structure ");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem6);
 
         jMenuItem7.setText("Commands");
@@ -538,6 +543,11 @@ public class Principal extends javax.swing.JFrame {
                 + "3. ./clear: vacia la tabla. \n"
                 + "4. ./refresh: refresca el arbol y agrega los nuevos archivos.");
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        JOptionPane.showMessageDialog(this, "los productos se leen: id,nombre del producto, categoria,precio,pasillo,bin");
+
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
