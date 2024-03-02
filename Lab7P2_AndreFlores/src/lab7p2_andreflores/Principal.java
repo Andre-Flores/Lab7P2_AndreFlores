@@ -607,12 +607,11 @@ public class Principal extends javax.swing.JFrame {
             }
             productos.add(new Producto(id, name, category, price, aisle, bin));
             rows++;
-
         }
         String next = "";
         try {
             Scanner leerArchivo = new Scanner(archivo);
-  
+
             while (leerArchivo.hasNextLine()) {
                 next = next + leerArchivo.nextLine() + "\n";
 
