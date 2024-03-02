@@ -612,7 +612,7 @@ public class Principal extends javax.swing.JFrame {
         String next = "";
         try {
             Scanner leerArchivo = new Scanner(archivo);
-
+  
             while (leerArchivo.hasNextLine()) {
                 next = next + leerArchivo.nextLine() + "\n";
 
