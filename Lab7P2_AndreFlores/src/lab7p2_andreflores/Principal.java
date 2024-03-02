@@ -6,6 +6,9 @@ package lab7p2_andreflores;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.Popup;
@@ -43,7 +46,7 @@ public class Principal extends javax.swing.JFrame {
         clearTable = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         tf_Command = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        Btn_entrada = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -57,8 +60,8 @@ public class Principal extends javax.swing.JFrame {
         MI_cleartable = new javax.swing.JMenuItem();
         MI_RefreshTrees = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        MI_estructura = new javax.swing.JMenuItem();
+        MI_commandos = new javax.swing.JMenuItem();
 
         MI_loadfile.setText("Load File");
         MI_loadfile.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -91,10 +94,10 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Enter");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        Btn_entrada.setText("Enter");
+        Btn_entrada.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                Btn_entradaMouseClicked(evt);
             }
         });
 
@@ -230,7 +233,7 @@ public class Principal extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(tf_Command, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Btn_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -243,7 +246,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_Command, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -296,21 +299,21 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu3.setText("Help");
 
-        jMenuItem6.setText("Product Structure ");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        MI_estructura.setText("Product Structure ");
+        MI_estructura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                MI_estructuraActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem6);
+        jMenu3.add(MI_estructura);
 
-        jMenuItem7.setText("Commands");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        MI_commandos.setText("Commands");
+        MI_commandos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                MI_commandosActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem7);
+        jMenu3.add(MI_commandos);
 
         jMenuBar1.add(jMenu3);
 
@@ -342,13 +345,13 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_MI_newfileActionPerformed
 
     private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
-
+        int row = jTree1.getClosestRowForLocation(
+                evt.getX(), evt.getY());
+        jTree1.setSelectionRow(row);
+        v1 = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
         if (evt.getButton() == 3) {
             if (evt.isMetaDown()) {
-                int row = jTree1.getClosestRowForLocation(
-                        evt.getX(), evt.getY());
-                jTree1.setSelectionRow(row);
-                v1 = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+
                 ppM_tree.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }        // TODO add your handling code here:
@@ -424,7 +427,7 @@ public class Principal extends javax.swing.JFrame {
 // TODO add your handling code here:
     }//GEN-LAST:event_MI_refreshActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void Btn_entradaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Btn_entradaMouseClicked
         String texto = tf_Command.getText();
         String[] arr = texto.split(" ");
         if (arr[0] == "./load") {
@@ -466,6 +469,18 @@ public class Principal extends javax.swing.JFrame {
                 rows++;
 
             }
+            String next = "";
+            try {
+                Scanner leerArchivo = new Scanner(archivo);
+
+                while (leerArchivo.hasNextLine()) {
+                    next = next + leerArchivo.nextLine() + "\n";
+
+                }
+                leerArchivo.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("hola");
+            }
             String salida = "";
             System.out.println(productos.size());
             for (int i = 0; i < productos.size(); i++) {
@@ -475,7 +490,7 @@ public class Principal extends javax.swing.JFrame {
             try {
                 FileWriter fw = new FileWriter(archivo);
                 BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(salida);
+                bw.write(next + salida);
                 bw.flush();
                 bw.close();
                 fw.close();
@@ -492,7 +507,7 @@ public class Principal extends javax.swing.JFrame {
             modeloArbol.reload();
         }
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_Btn_entradaMouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         if (evt.getButton() == 3) {
@@ -531,23 +546,89 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_MI_ClearCommandLineActionPerformed
 
     private void MI_importfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_importfileActionPerformed
+        DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
+        int rows = 0;
 
+        String id = "";
+        String name = "";
+        String category = "";
+        String price = "";
+        String aisle = "";
+        String bin = "";
+        ArrayList<Producto> productos = new ArrayList();
+
+        File archivo = new File((String) v1.getUserObject());
+        while (jTable1.getValueAt(rows, 0) != null) {
+            for (int i = 0; i <= 6; i++) {
+                if (i == 0) {
+                    id = (String) jTable1.getValueAt(rows, i);
+                } else if (i == 1) {
+                    name = (String) jTable1.getValueAt(rows, i);
+
+                } else if (i == 2) {
+                    category = (String) jTable1.getValueAt(rows, i);
+
+                } else if (i == 3) {
+                    price = (String) jTable1.getValueAt(rows, i);
+
+                } else if (i == 4) {
+                    aisle = (String) jTable1.getValueAt(rows, i);
+
+                } else if (i == 5) {
+                    bin = (String) jTable1.getValueAt(rows, i);
+
+                }
+
+            }
+            productos.add(new Producto(id, name, category, price, aisle, bin));
+            rows++;
+
+        }
+        String next = "";
+        try {
+            Scanner leerArchivo = new Scanner(archivo);
+
+            while (leerArchivo.hasNextLine()) {
+                next = next + leerArchivo.nextLine() + "\n";
+
+            }
+            leerArchivo.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("hola");
+        }
+        String salida = "";
+        System.out.println(productos.size());
+        for (int i = 0; i < productos.size(); i++) {
+            salida += productos.get(i).getId() + "," + productos.get(i).getName() + "," + productos.get(i).getCategory() + "," + productos.get(i).getPrice() + "," + productos.get(i).getAisle() + "," + productos.get(i).getBin() + "\n";
+
+        }
+        try {
+            FileWriter fw = new FileWriter(archivo);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(next + salida);
+            bw.flush();
+            bw.close();
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_MI_importfileActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void MI_commandosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_commandosActionPerformed
 
         JOptionPane.showMessageDialog(this, "Comandos: \n"
                 + "1. ./create (nombre archivo).txt -single: crea el archivo. \n"
                 + "2. ./load (nombre archivo).txt: carga la tabla al archivo. \n"
                 + "3. ./clear: vacia la tabla. \n"
                 + "4. ./refresh: refresca el arbol y agrega los nuevos archivos.");
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_MI_commandosActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void MI_estructuraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_estructuraActionPerformed
         JOptionPane.showMessageDialog(this, "los productos se leen: id,nombre del producto, categoria,precio,pasillo,bin");
 
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_MI_estructuraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -594,21 +675,21 @@ public class Principal extends javax.swing.JFrame {
 
     DefaultMutableTreeNode v1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Btn_entrada;
     private javax.swing.JMenuItem MI_ClearCommandLine;
     private javax.swing.JMenuItem MI_RefreshTrees;
     private javax.swing.JMenuItem MI_cleartable;
+    private javax.swing.JMenuItem MI_commandos;
+    private javax.swing.JMenuItem MI_estructura;
     private javax.swing.JMenuItem MI_importfile;
     private javax.swing.JMenuItem MI_loadfile;
     private javax.swing.JMenuItem MI_newfile;
     private javax.swing.JMenuItem MI_refresh;
     private javax.swing.JMenuItem clearTable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
